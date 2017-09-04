@@ -4,10 +4,10 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QPushButton>
-#include <QTextEdit>
 #include <QVBoxLayout>
 
 #include "mainmenu.h"
+#include "logoutwidget.h"
 
 class MainWindow : public QMainWindow
 {
@@ -17,10 +17,12 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    QWidget *p_main_widget;
     QStackedWidget *p_stacked_widget;
-    QVBoxLayout *p_main_layout;
+    QVBoxLayout *p_main_vertical_layout;
     QPushButton *p_logo_button;
-    QTextEdit *p_logout_text;
+
+    LogoutWidget *p_logout;
     MainMenu *p_main_menu;
 
     int a, b, n, h, e, last_I, next_I, sum;
@@ -32,6 +34,11 @@ public:
     void NonConstantStepTrapezeMethod();
     void NonConstantStepSimpsonMethod();
     void NonConstantStepRectangleMethod();
+
+public slots :
+
+    void StartCalculating(int _a, int _b, int _n, int _e, int _type);
+    void Restart();
 };
 
 #endif // MAINWINDOW_H

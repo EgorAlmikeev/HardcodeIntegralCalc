@@ -26,8 +26,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    mainmenu.cpp
+    mainmenu.cpp \
+    logoutwidget.cpp
 
 HEADERS += \
         mainwindow.h \
-    mainmenu.h
+    mainmenu.h \
+    logoutwidget.h
