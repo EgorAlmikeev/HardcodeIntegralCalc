@@ -18,6 +18,9 @@ public:
     QWidget *p_main_widget;
     QVBoxLayout *p_main_vertical_layout;
 
+    QHBoxLayout *p_first_horizontal_layout;
+    QHBoxLayout *p_second_horizontal_layout;
+
     QGroupBox *p_method_choice;
     QGroupBox *p_step_choice;
 
