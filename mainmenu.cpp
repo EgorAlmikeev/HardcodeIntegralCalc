@@ -5,11 +5,15 @@ MainMenu::MainMenu()
     p_main_vertical_layout = new QVBoxLayout;
     setLayout(p_main_vertical_layout);
 
-    p_method_choice = new MethodButtons;
+    p_const_step_method_choice = new ConstStepMethodButtons;
+    p_non_const_step_method_choice = new NonConstStepMethodButtons;
     p_step_choice = new StepButtons;
 
-    p_main_vertical_layout->addWidget(p_method_choice);
+    p_non_const_step_method_choice->setEnabledFalse();
+
     p_main_vertical_layout->addWidget(p_step_choice);
+    p_main_vertical_layout->addWidget(p_const_step_method_choice);
+    p_main_vertical_layout->addWidget(p_non_const_step_method_choice);
 
     p_integral_label = new QLabel;
 
@@ -56,33 +60,27 @@ MainMenu::MainMenu()
     connect(p_b_edit, SIGNAL(textEdited(QString)), SLOT(CheckForArguments()));
     connect(p_n_edit, SIGNAL(textEdited(QString)), SLOT(CheckForArguments()));
     connect(p_e_edit, SIGNAL(textEdited(QString)), SLOT(CheckForArguments()));
+
+    connect(p_step_choice, SIGNAL(ConstClicked()), p_const_step_method_choice, SLOT(setEnabledTrue()));
+    connect(p_step_choice, SIGNAL(ConstClicked()), p_non_const_step_method_choice, SLOT(setEnabledFalse()));
+
+    connect(p_step_choice, SIGNAL(NonConstClicked()), p_const_step_method_choice, SLOT(setEnabledFalse()));
+    connect(p_step_choice, SIGNAL(NonConstClicked()), p_non_const_step_method_choice, SLOT(setEnabledTrue()));
 }
 
 void MainMenu::CheckForArguments()
 {
-    QRegExp reg_1("^[0-9]+$");
+    QRegExp reg_1("^[+-]?[\d]+($|[\.][\d]+|([\.][\d]+[Ee]|[Ee])[+-]?\d+)$");
 
     bool boolean = true;
 
-    if(boolean *= p_a_edit->text().contains(reg_1))
-        p_a_edit->setStyleSheet("color : black;");
-    else
-        p_a_edit->setStyleSheet("color : red;");
+    (boolean *= p_a_edit->text().contains(reg_1));
 
-    if(boolean *= p_b_edit->text().contains(reg_1))
-        p_b_edit->setStyleSheet("color : black;");
-    else
-        p_b_edit->setStyleSheet("color : red;");
+    (boolean *= p_b_edit->text().contains(reg_1));
 
-    if(boolean *= p_n_edit->text().contains(reg_1))
-        p_n_edit->setStyleSheet("color : black;");
-    else
-        p_n_edit->setStyleSheet("color : red;");
+    (boolean *= p_n_edit->text().contains(reg_1));
 
-    if(boolean *= p_e_edit->text().contains(reg_1))
-        p_e_edit->setStyleSheet("color : black;");
-    else
-        p_e_edit->setStyleSheet("color : red;");
+    (boolean *= p_e_edit->text().contains(reg_1));
 
     if(boolean)
         p_start_button->setEnabled(true);
@@ -92,27 +90,30 @@ void MainMenu::CheckForArguments()
 
 void MainMenu::SendArguments()
 {
-
-    if(p_method_choice->p_rect_method->isChecked() && p_step_choice->p_const_step->isChecked())
-        type = const_rect;
-    else if(p_method_choice->p_trap_method->isChecked() && p_step_choice->p_const_step->isChecked())
-        type = const_trap;
-    else if(p_method_choice->p_simp_method->isChecked() && p_step_choice->p_const_step->isChecked())
-        type = const_simp;
-    else if(p_method_choice->p_rect_method->isChecked() && p_step_choice->p_non_const_step->isChecked())
-        type = nconst_rect;
-    else if(p_method_choice->p_trap_method->isChecked() && p_step_choice->p_non_const_step->isChecked())
-        type = nconst_trap;
-    else if(p_method_choice->p_simp_method->isChecked() && p_step_choice->p_non_const_step->isChecked())
-        type = nconst_simp;
+    if(p_const_step_method_choice->enabled)
+    {
+        if(p_const_step_method_choice->p_left_rect_method->isChecked())
+            type = left_rect_method;
+        else if(p_const_step_method_choice->p_right_rect_method->isChecked())
+            type = right_rect_method;
+        else if(p_const_step_method_choice->p_trap_method->isChecked())
+            type = trapeze_method;
+        else if(p_const_step_method_choice->p_para_method->isChecked())
+            type = parabola_method;
+    }
+    else if(p_non_const_step_method_choice->enabled)
+    {
+        if(p_non_const_step_method_choice->p_method_1->isChecked())
+            type = method_1;
+        else if(p_non_const_step_method_choice->p_method_2->isChecked())
+            type = method_2;
+    }
     else
         exit(1);
-
 
     emit SendingArguments(p_a_edit->text().toInt(),
                           p_b_edit->text().toInt(),
                           p_n_edit->text().toInt(),
                           p_e_edit->text().toInt(),
                           type);
-
 }

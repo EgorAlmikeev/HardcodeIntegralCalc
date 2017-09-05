@@ -36,6 +36,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::StartCalculating(int _a, int _b, int _n, int _e, int _type)
 {
+    a = _a;
+    b = _b;
+    n = _n;
+    e = _e;
+
     qDebug() << "start calculating with a = " << _a << " b = " << _b << " n = " << _n << " e = " << _e << " type = " << _type;
 
     p_stacked_widget->setCurrentWidget(p_logout);
@@ -46,3 +51,16 @@ void MainWindow::Restart()
     p_logout->p_logout_text->clear();
     p_stacked_widget->setCurrentWidget(p_main_menu);
 }
+
+void MainWindow::LeftRectMethod()
+{}
+void MainWindow::RightRectMethod()
+{}
+void MainWindow::TrapMethod()
+{}
+void MainWindow::ParaMethod()
+{}
+void MainWindow::Method1()
+{}
+void MainWindow::Method2()
+{}

@@ -27,13 +27,12 @@ public:
 
     int a, b, n, h, e, last_I, next_I, sum;
 
-    void ConstantStepTrapezeMethod();
-    void ConstantStepSimpsonMethod();
-    void ConstantStepRectangleMethod();
-
-    void NonConstantStepTrapezeMethod();
-    void NonConstantStepSimpsonMethod();
-    void NonConstantStepRectangleMethod();
+    void LeftRectMethod();
+    void RightRectMethod();
+    void TrapMethod();
+    void ParaMethod();
+    void Method1();
+    void Method2();
 
 public slots :
 

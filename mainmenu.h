@@ -10,7 +10,7 @@
 #include <QLineEdit>
 #include <QLabel>
 
-class MethodButtons : public QGroupBox
+class ConstStepMethodButtons : public QGroupBox
 {
     Q_OBJECT
 
@@ -19,28 +19,97 @@ public :
 
     QVBoxLayout *p_layout;
 
-    QRadioButton *p_rect_method;
+    QRadioButton *p_left_rect_method;
     QRadioButton *p_trap_method;
-    QRadioButton *p_simp_method;
+    QRadioButton *p_para_method;
+    QRadioButton *p_right_rect_method;
 
-    MethodButtons()
+    bool enabled;
+
+    ConstStepMethodButtons()
     {
-        setTitle("Method");
+        enabled = true;
+        setTitle("Const step methods");
 
-        p_rect_method = new QRadioButton("rect method");
-        p_trap_method = new QRadioButton("trap method");
-        p_simp_method = new QRadioButton("simp method");
+        p_left_rect_method = new QRadioButton("left rect method");
+        p_right_rect_method = new QRadioButton("right rect method");
+        p_trap_method = new QRadioButton("trapeze method");
+        p_para_method = new QRadioButton("parabola method");
 
         p_layout = new QVBoxLayout;
 
-        p_layout->addWidget(p_rect_method);
+        p_layout->addWidget(p_left_rect_method);
+        p_layout->addWidget(p_right_rect_method);
         p_layout->addWidget(p_trap_method);
-        p_layout->addWidget(p_simp_method);
+        p_layout->addWidget(p_para_method);
 
-        p_rect_method->setChecked(true);
+        p_left_rect_method->setChecked(true);
 
         setLayout(p_layout);
     }
+
+public slots:
+
+    void setEnabledFalse()
+    {
+        setEnabled(false);
+        enabled = false;
+    }
+
+    void setEnabledTrue()
+    {
+        setEnabled(true);
+        enabled = true;
+    }
+
+};
+
+class NonConstStepMethodButtons : public QGroupBox
+{
+    Q_OBJECT
+
+
+public :
+
+    QVBoxLayout *p_layout;
+
+    QRadioButton *p_method_1;
+    QRadioButton *p_method_2;
+
+    bool enabled;
+
+    NonConstStepMethodButtons()
+    {
+        enabled = true;
+        setTitle("Non const step methods");
+
+        p_method_1 = new QRadioButton("left rect method");
+        p_method_2 = new QRadioButton("trapeze method");
+
+        p_layout = new QVBoxLayout;
+
+        p_layout->addWidget(p_method_1);
+        p_layout->addWidget(p_method_2);
+
+        p_method_1->setChecked(true);
+
+        setLayout(p_layout);
+    }
+
+public slots:
+
+    void setEnabledFalse()
+    {
+        setEnabled(false);
+        enabled = false;
+    }
+
+    void setEnabledTrue()
+    {
+        setEnabled(true);
+        enabled = true;
+    }
+
 };
 
 class StepButtons : public QGroupBox
@@ -70,7 +139,15 @@ public :
         p_const_step->setChecked(true);
 
         setLayout(p_layout);
+
+        connect(p_const_step, SIGNAL(clicked(bool)), SIGNAL(ConstClicked()));
+        connect(p_non_const_step, SIGNAL(clicked(bool)), SIGNAL(NonConstClicked()));
     }
+
+signals :
+
+    void NonConstClicked();
+    void ConstClicked();
 };
 
 class MainMenu : public QWidget
@@ -88,7 +165,8 @@ public:
     QHBoxLayout *p_first_horizontal_layout;
     QHBoxLayout *p_second_horizontal_layout;
 
-    MethodButtons *p_method_choice;
+    NonConstStepMethodButtons *p_non_const_step_method_choice;
+    ConstStepMethodButtons *p_const_step_method_choice;
     StepButtons *p_step_choice;
 
     QLineEdit *p_a_edit;
@@ -103,7 +181,7 @@ public:
 
     QPushButton *p_start_button;
 
-    enum method_type {const_rect, const_trap, const_simp, nconst_rect, nconst_trap, nconst_simp};
+    enum method_type {left_rect_method, right_rect_method, trapeze_method, parabola_method, method_1, method_2};
 
     method_type type;
 
