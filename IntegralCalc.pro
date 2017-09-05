@@ -33,3 +33,6 @@ HEADERS += \
         mainwindow.h \
     mainmenu.h \
     logoutwidget.h
+
+RESOURCES += \
+    res.qrc

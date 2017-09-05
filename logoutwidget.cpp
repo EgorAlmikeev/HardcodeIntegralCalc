@@ -9,6 +9,8 @@ LogoutWidget::LogoutWidget()
     p_logout_text = new QTextEdit;
     p_close_button = new QPushButton("Close");
 
+    p_logout_text->setFontPointSize(16);
+
     p_logout_text->setReadOnly(true);
 
     p_layout->addWidget(p_logout_text);

@@ -83,8 +83,8 @@ public :
         enabled = true;
         setTitle("Non const step methods");
 
-        p_method_1 = new QRadioButton("left rect method");
-        p_method_2 = new QRadioButton("trapeze method");
+        p_method_1 = new QRadioButton("method 1");
+        p_method_2 = new QRadioButton("method 2");
 
         p_layout = new QVBoxLayout;
 
@@ -189,10 +189,12 @@ public slots :
 
     void CheckForArguments();
     void SendArguments();
+    void SetEpsilonEditEnabledTrue();
+    void SetEpsilonEditEnabledFalse();
 
 signals :
 
-    void SendingArguments(int a, int b, int n, int e, int type);
+    void SendingArguments(double a, double b, double n, double e, int type);
 };
 
 #endif // MAINMENU_H

@@ -25,7 +25,7 @@ public:
     LogoutWidget *p_logout;
     MainMenu *p_main_menu;
 
-    int a, b, n, h, e, last_I, next_I, sum;
+    double a, b, n, h, e, last_I, next_I, sum, x;
 
     void LeftRectMethod();
     void RightRectMethod();
@@ -34,9 +34,11 @@ public:
     void Method1();
     void Method2();
 
+    bool isArgumentsCorrect();
+
 public slots :
 
-    void StartCalculating(int _a, int _b, int _n, int _e, int _type);
+    void StartCalculating(double _a, double _b, double _n, double _e, int _type);
     void Restart();
 };
 
