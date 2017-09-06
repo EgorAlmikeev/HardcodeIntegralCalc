@@ -69,7 +69,7 @@ void MainWindow::LeftRectMethod()
     sum = 0;
     x = a;
 
-    p_logout->p_logout_text->append(QString("Start calculating left rect method..."
+    p_logout->p_logout_text->append(QString("Start calculating \"left rect\" method..."
                                             "\n-------------------------------------"
                                             "\nArguments :"
                                             "\na = " + QString::number(a) +
@@ -110,7 +110,7 @@ void MainWindow::RightRectMethod()
     sum = 0;
     x = a + h;
 
-    p_logout->p_logout_text->append(QString("Start calculating right rect method..."
+    p_logout->p_logout_text->append(QString("Start calculating \"right rect\" method..."
                                             "\n-------------------------------------"
                                             "\nArguments :"
                                             "\na = " + QString::number(a) +
@@ -151,7 +151,7 @@ void MainWindow::TrapMethod()
     sum = ((sqrt(0.5 * a * a + 3)) / (2 * a + sqrt(2 * a * a + 1.6)) + (sqrt(0.5 * b * b + 3)) / (2 * b + sqrt(2 * b * b + 1.6))) / 2;
     x = a + h;
 
-    p_logout->p_logout_text->append(QString("Start calculating trapeze rect method..."
+    p_logout->p_logout_text->append(QString("Start calculating \"trapeze rect\" method..."
                                             "\n-------------------------------------"
                                             "\nArguments :"
                                             "\na = " + QString::number(a) +
@@ -192,7 +192,7 @@ void MainWindow::ParaMethod()
     sum = 0;
     x = a + h;
 
-    p_logout->p_logout_text->append(QString("Start calculating parabola rect method..."
+    p_logout->p_logout_text->append(QString("Start calculating \"parabola rect\" method..."
                                             "\n-------------------------------------"
                                             "\nArguments :"
                                             "\na = " + QString::number(a) +
@@ -231,7 +231,62 @@ void MainWindow::ParaMethod()
 }
 
 void MainWindow::Method1()
-{}
+{
+    h = (b - a) / n;
+    sum = 0;
+    x = a;
+
+    p_logout->p_logout_text->append(QString("Start calculating \"double calc\" rect method..."
+                                            "\n-------------------------------------"
+                                            "\nArguments :"
+                                            "\na = " + QString::number(a) +
+                                            "\nb = " + QString::number(b) +
+                                            "\nn = " + QString::number(n) +
+                                            "\nh = (b - a) / n = " + QString::number(h) +
+                                            "\nx = " + QString::number(x) +
+                                            "\ne = " + QString::number(e) +
+                                            "\nf(x) = sqrt(0.5 * x * x + 3) / (2 * x + sqrt(2 * x * x + 1.6))"
+                                            )
+                                    );
+
+    if(!isArgumentsCorrect())
+        return;
+
+    p_logout->p_logout_text->append("-------------------------------------\n\n");
+
+    double temp = b - h;
+    int counter = 0;
+
+    double integral_previous = 0, integral_current = 0;
+
+    while(true)
+    {
+        while(x <= temp)
+        {
+            p_logout->p_logout_text->append(QString("------------------    ") + QString("iteration ") + QString::number(++counter) + QString("    ------------------"));
+            p_logout->p_logout_text->append("Step " + QString::number(x) + " / " + QString::number(temp));
+            p_logout->p_logout_text->append("sum = " + QString::number(sum));
+
+            sum += sqrt(0.5 * x * x + 3) / (2 * x + sqrt(2 * x * x + 1.6));
+            x += h;
+        }
+
+        integral_current = h * sum;
+
+        if(integral_current - integral_previous <= e)
+            break;
+
+        integral_previous = integral_current;
+        h /= 2;
+        sum = 0;
+        x = a;
+    }
+
+    p_logout->p_logout_text->append("-------------------------------------"
+                                    "\nCalculating is successfully finished"
+                                    "\nIntegral = " + QString::number(integral_current)
+                                    );
+}
 
 void MainWindow::Method2()
 {}

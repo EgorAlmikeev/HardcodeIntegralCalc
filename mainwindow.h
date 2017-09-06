@@ -25,7 +25,7 @@ public:
     LogoutWidget *p_logout;
     MainMenu *p_main_menu;
 
-    double a, b, n, h, e, last_I, next_I, sum, x;
+    double a, b, n, h, e, sum, x;
 
     void LeftRectMethod();
     void RightRectMethod();

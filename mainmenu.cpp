@@ -123,7 +123,7 @@ void MainMenu::SendArguments()
     emit SendingArguments(p_a_edit->text().toDouble(),
                           p_b_edit->text().toDouble(),
                           p_n_edit->text().toDouble(),
-                          p_e_edit->text().toInt(),
+                          p_e_edit->text().toDouble(),
                           type);
 }
 
