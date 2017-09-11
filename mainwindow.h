@@ -40,6 +40,7 @@ public slots :
 
     void StartCalculating(double _a, double _b, double _n, double _e, int _type);
     void Restart();
+    void OpenAuthorUrl();
 };
 
 #endif // MAINWINDOW_H
