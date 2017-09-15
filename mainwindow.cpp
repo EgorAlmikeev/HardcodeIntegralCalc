@@ -5,10 +5,10 @@
 
 inline double Function(double x)
 {
-    return sqrt(0.5 * x * x + 3) / (2 * x + sqrt(2 * x * x + 1.6));
+    return sin(sqrt(0.5 * x * x + 3) / (2 * x + sqrt(2 * x * x + 1.6)));
 }
 
-double GetIntegral(double _a, double _b, double _n)
+double GetParabolaIntegral(double _a, double _b, double _n)
 {
     double _h = (_b - _a) / _n;
     double _sum = 0.0;
@@ -25,6 +25,23 @@ double GetIntegral(double _a, double _b, double _n)
     }
 
     return (_h * (_sum + (sqrt(0.5 * _a * _a + 3)) / (2 * _a + sqrt(2 * _a * _a + 1.6)) - (sqrt(0.5 * _b * _b + 3))/(2 * _b + sqrt(2 * _b * _b +1.6)))) / 3;
+}
+
+double GetLeftRectIntegral(double _a, double _b, double _n)
+{
+    double _h = (_b - _a) / _n;
+    double _sum = 0.0;
+    double _x = _a;
+
+    double end_of_calculating = _b - _h;
+
+    while(_x <= end_of_calculating)
+    {
+        _sum += Function(_x);
+        _x += _h;
+    }
+
+    return _h * _sum;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -57,9 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow()
-{
-
-}
+{}
 
 void MainWindow::StartCalculating(double _a, double _b, double _n, double _e, int _type)
 {
@@ -74,12 +89,12 @@ void MainWindow::StartCalculating(double _a, double _b, double _n, double _e, in
 
     switch(_type)
     {
-    case 0 : LeftRectMethod(); break;
-    case 1 : RightRectMethod(); break;
-    case 2 : TrapMethod(); break;
-    case 3 : ParaMethod(); break;
-    case 4 : Method1(); break;
-    case 5 : Method2(); break;
+    case 0 : LogoutLeftRectMethod(); break;
+    case 1 : LogoutRightRectMethod(); break;
+    case 2 : LogoutTrapMethod(); break;
+    case 3 : LogoutParaMethod(); break;
+    case 4 : LogoutMethod1(); break;
+    case 5 : LogoutMethod2(); break;
     }
 }
 
@@ -89,10 +104,10 @@ void MainWindow::Restart()
     p_stacked_widget->setCurrentWidget(p_main_menu);
 }
 
-void MainWindow::LeftRectMethod()
+void MainWindow::LogoutLeftRectMethod()
 {
     h = (b - a) / n;
-    sum = 0;
+    sum = 0.0;
     x = a;
 
     p_logout->InitializeCalculatingMethod("left rect", a, b, n, h, x);
@@ -114,10 +129,10 @@ void MainWindow::LeftRectMethod()
     p_logout->EndOfCalculating(h * sum);
 }
 
-void MainWindow::RightRectMethod()
+void MainWindow::LogoutRightRectMethod()
 {
     h = (b - a) / n;
-    sum = 0;
+    sum = 0.0;
     x = a + h;
 
     p_logout->InitializeCalculatingMethod("right rect", a, b, n, h, x);
@@ -139,7 +154,7 @@ void MainWindow::RightRectMethod()
     p_logout->EndOfCalculating(h * sum);
 }
 
-void MainWindow::TrapMethod()
+void MainWindow::LogoutTrapMethod()
 {
     h = (b - a) / n;
     sum = ((sqrt(0.5 * a * a + 3)) / (2 * a + sqrt(2 * a * a + 1.6)) + (sqrt(0.5 * b * b + 3)) / (2 * b + sqrt(2 * b * b + 1.6))) / 2;
@@ -164,10 +179,10 @@ void MainWindow::TrapMethod()
     p_logout->EndOfCalculating(h * sum);
 }
 
-void MainWindow::ParaMethod()
+void MainWindow::LogoutParaMethod()
 {
     h = (b - a) / n;
-    sum = 0;
+    sum = 0.0;
     x = a + h;
 
     p_logout->InitializeCalculatingMethod("parabola", a, b, n, h, x);
@@ -191,32 +206,36 @@ void MainWindow::ParaMethod()
     p_logout->EndOfCalculating((h * (sum + (sqrt(0.5 * a * a + 3)) / (2 * a + sqrt(2 * a * a + 1.6)) - (sqrt(0.5 * b * b + 3))/(2 * b + sqrt(2 * b * b +1.6)))) / 3);
 }
 
-void MainWindow::Method1()
+void MainWindow::LogoutMethod1()
 {
     p_logout->InitializeCalculatingMethod("double calculating", a, b, n, h, x, e);
 
     if(!isArgumentsCorrect())
         return;
 
-    double integral_previous = 0, integral_current = 0;
+    double integral_previous = 0.0, integral_current = 0.0, difference = 0.0;
 
-    integral_current = GetIntegral(a, b, n);
+    integral_current = GetParabolaIntegral(a, b, n);
 
     while(true)
     {
         integral_previous = integral_current;
         n *= 2;
-        integral_current = GetIntegral(a, b, n);
+        integral_current = GetParabolaIntegral(a, b, n);
 
-        if(fabs(integral_previous - integral_current) <= e)
+        difference = integral_previous - integral_current;
+
+        if(fabs(difference) <= e)
             break;
     }
 
     p_logout->EndOfCalculating(integral_current);
 }
 
-void MainWindow::Method2()
-{}
+void MainWindow::LogoutMethod2()
+{
+
+}
 
 bool MainWindow::isArgumentsCorrect()
 {

@@ -61,6 +61,6 @@ void LogoutWidget::EndOfCalculating(double _integral_value)
 {
     p_logout_text->append("-------------------------------------"
                                     "\nCalculating is successfully finished"
-                                    "\nIntegral = " + QString::number(_integral_value)
+                                    "\nIntegral = " + QString::number(_integral_value, 'g', 30)
                                     );
 }

@@ -27,12 +27,12 @@ public:
 
     double a, b, n, h, e, sum, x;
 
-    void LeftRectMethod();
-    void RightRectMethod();
-    void TrapMethod();
-    void ParaMethod();
-    void Method1();
-    void Method2();
+    void LogoutLeftRectMethod();
+    void LogoutRightRectMethod();
+    void LogoutTrapMethod();
+    void LogoutParaMethod();
+    void LogoutMethod1();
+    void LogoutMethod2();
 
     bool isArgumentsCorrect();
 
