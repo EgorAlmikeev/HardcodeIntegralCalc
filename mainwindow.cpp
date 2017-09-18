@@ -53,16 +53,25 @@ MainWindow::MainWindow(QWidget *parent)
     p_main_widget = new QWidget;
     setCentralWidget(p_main_widget);
 
+    p_main_widget->setPalette(QPalette(QColor("#849293")));
+    p_main_widget->setAutoFillBackground(true);
+
     p_main_vertical_layout = new QVBoxLayout;
+    p_main_vertical_layout->setSpacing(0);
+    p_main_vertical_layout->setAlignment(Qt::AlignCenter);
     p_main_widget->setLayout(p_main_vertical_layout);
 
     p_logo_button = new QPushButton("crafted by pr_York");
 
-    p_main_vertical_layout->addWidget(p_logo_button);
+//    p_main_vertical_layout->addWidget(p_logo_button);
 
     p_logout = new LogoutWidget;
-
     p_main_menu = new MainMenu;
+    p_author = new QPushButton;
+    p_author->setFlat(true);
+    p_author->setText("pr_York");
+    p_author->setStyleSheet("color : #DADAB6; font-style : italic; font-family : Arial; text-decoration: underline;");
+    connect(p_author, SIGNAL(clicked(bool)), SLOT(OpenAuthorUrl()));
 
     p_stacked_widget = new QStackedWidget;
     p_stacked_widget->addWidget(p_main_menu);
@@ -70,6 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
     p_stacked_widget->setCurrentWidget(p_main_menu);
 
     p_main_vertical_layout->addWidget(p_stacked_widget);
+    p_main_vertical_layout->addWidget(p_author);
 
     connect(p_main_menu, SIGNAL(SendingArguments(double,double,double,double,int)), SLOT(StartCalculating(double,double,double,double,int)));
     connect(p_logout, SIGNAL(CloseButtonClicked()), SLOT(Restart()));

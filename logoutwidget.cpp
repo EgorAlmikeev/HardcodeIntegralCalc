@@ -2,8 +2,10 @@
 
 LogoutWidget::LogoutWidget()
 {
-    p_layout = new QVBoxLayout;
+    setPalette(QPalette(QColor("#DADAB6")));
+    setAutoFillBackground(true);
 
+    p_layout = new QVBoxLayout;
     setLayout(p_layout);
 
     p_logout_text = new QTextEdit;

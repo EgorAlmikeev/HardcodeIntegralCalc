@@ -5,6 +5,9 @@ MainMenu::MainMenu()
     p_main_vertical_layout = new QVBoxLayout;
     setLayout(p_main_vertical_layout);
 
+    setPalette(QPalette(QColor("#DADAB6")));
+    setAutoFillBackground(true);
+
     p_const_step_method_choice = new ConstStepMethodButtons;
     p_non_const_step_method_choice = new NonConstStepMethodButtons;
     p_step_choice = new StepButtons;
@@ -130,9 +133,11 @@ void MainMenu::SendArguments()
 void MainMenu::SetEpsilonEditEnabledTrue()
 {
     p_e_edit->setEnabled(true);
+    p_e_label->setEnabled(true);
 }
 
 void MainMenu::SetEpsilonEditEnabledFalse()
 {
     p_e_edit->setEnabled(false);
+    p_e_label->setEnabled(false);
 }

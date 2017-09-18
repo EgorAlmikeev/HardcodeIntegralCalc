@@ -21,6 +21,7 @@ public:
     QStackedWidget *p_stacked_widget;
     QVBoxLayout *p_main_vertical_layout;
     QPushButton *p_logo_button;
+    QPushButton *p_author;
 
     LogoutWidget *p_logout;
     MainMenu *p_main_menu;

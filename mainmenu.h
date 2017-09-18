@@ -9,6 +9,7 @@
 #include <QGroupBox>
 #include <QLineEdit>
 #include <QLabel>
+#include <QPalette>
 
 class ConstStepMethodButtons : public QGroupBox
 {
