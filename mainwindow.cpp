@@ -8,7 +8,7 @@ inline double Function(double x)
     return sin(sqrt(0.5 * x * x + 3) / (2 * x + sqrt(2 * x * x + 1.6)));
 }
 
-double GetParabolaIntegral(double _a, double _b, double _n)
+double GetParabolaIntegralForMethod1(double _a, double _b, double _n)
 {
     double _h = (_b - _a) / _n;
     double _sum = 0.0;
@@ -27,21 +27,24 @@ double GetParabolaIntegral(double _a, double _b, double _n)
     return (_h * (_sum + (sqrt(0.5 * _a * _a + 3)) / (2 * _a + sqrt(2 * _a * _a + 1.6)) - (sqrt(0.5 * _b * _b + 3))/(2 * _b + sqrt(2 * _b * _b +1.6)))) / 3;
 }
 
-double GetLeftRectIntegral(double _a, double _b, double _n)
+double GetIntForMethod2(double a, double b, double n, bool isShift)
 {
-    double _h = (_b - _a) / _n;
-    double _sum = 0.0;
-    double _x = _a;
+    double x, s, h;
 
-    double end_of_calculating = _b - _h;
+    s = 0;
+    h = (b - a) / n;
+    x = a;
 
-    while(_x <= end_of_calculating)
+    if(isShift)
+        x += h * 0.5;
+
+    while(x < b)
     {
-        _sum += Function(_x);
-        _x += _h;
+        s += Function(x);
+        x += h;
     }
 
-    return _h * _sum;
+    return s;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -213,19 +216,17 @@ void MainWindow::LogoutMethod1()
     if(!isArgumentsCorrect())
         return;
 
-    double integral_previous = 0.0, integral_current = 0.0, difference = 0.0;
+    double integral_previous = 0.0, integral_current = 0.0;
 
-    integral_current = GetParabolaIntegral(a, b, n);
+    integral_current = GetParabolaIntegralForMethod1(a, b, n);
 
     while(true)
     {
         integral_previous = integral_current;
         n *= 2;
-        integral_current = GetParabolaIntegral(a, b, n);
+        integral_current = GetParabolaIntegralForMethod1(a, b, n);
 
-        difference = integral_previous - integral_current;
-
-        if(fabs(difference) <= e)
+        if(fabs(integral_previous - integral_current) <= e)
             break;
     }
 
@@ -234,7 +235,33 @@ void MainWindow::LogoutMethod1()
 
 void MainWindow::LogoutMethod2()
 {
+    p_logout->InitializeCalculatingMethod("mixed calc", a, b, n, h, x, e);
 
+    if(!isArgumentsCorrect())
+        return;
+
+    sum = 0;
+    double integral_previous = 0.0, integral_current = 0.0, ns = 0.0;
+
+    sum = GetIntForMethod2(a, b, n, false);
+    sum += GetIntForMethod2(a, b, n, true);
+
+    integral_previous = sum;
+
+    do
+    {
+        integral_current = integral_previous;
+
+        ns += n * 2;
+        n *= 2;
+
+        sum += GetIntForMethod2(a, b, n, true);
+
+        integral_previous = sum * ((b - a) / ns);
+    }
+    while(fabs(integral_previous - integral_current) > e);
+
+    p_logout->EndOfCalculating(integral_current);
 }
 
 bool MainWindow::isArgumentsCorrect()
